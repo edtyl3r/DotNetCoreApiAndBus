@@ -1,19 +1,20 @@
 ﻿namespace DotNetCoreApi
 {
     using Configuration;
-    using Data;
+
+    using DotNetCoreApi.Infrastructure.Repositories;
+    using MediatR;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Provider.Query;
-    using Service;
 
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -24,14 +25,15 @@
             services.AddMvc();
 
             PaymentProviderSettings foo = new PaymentProviderSettings();
-            Configuration.BindOrThrow("PaymentProvider", foo);
+            this.Configuration.BindOrThrow("PaymentProvider", foo);
 
-            services.Configure<DocumentDbSettings>(settings => { Configuration.BindOrThrow("DocumentDB", settings); } );
-            services.Configure<PaymentProviderSettings>(settings => { Configuration.BindOrThrow("PaymentProvider", settings); } );
+            services.Configure<DocumentDbSettings>(settings => { this.Configuration.BindOrThrow("DocumentDB", settings); } );
+            services.Configure<PaymentProviderSettings>(settings => { this.Configuration.BindOrThrow("PaymentProvider", settings); } );
 
-            services.AddSingleton<IPaymentService, PaymentService>()
-                .AddSingleton<IGetPaymentProviderRedirectQuery, GetPaymentProviderRedirectQuery>()
-                .AddSingleton<ISavePaymentCommand, SavePaymentCommand>()
+            services.AddMediatR();
+
+            services.AddSingleton<IPaymentProviderService, PaymentProviderService>()
+                .AddSingleton<IPaymentsRepository, PaymentsRepository>()
                 .AddSingleton<IDocumentClientFactory, DocumentClientFactory>();
         }
 

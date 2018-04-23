@@ -3,19 +3,21 @@
     using System;
     using System.Threading.Tasks;
     using Configuration;
-    using Contracts;
+
+    using DotNetCoreApi.Application.Models;
+
     using Microsoft.Extensions.Options;
 
-    public interface IGetPaymentProviderRedirectQuery
+    public interface IPaymentProviderService
     {
         Task<PaymentRedirect> Get(Payment payment);
     }
 
-    public class GetPaymentProviderRedirectQuery : IGetPaymentProviderRedirectQuery
+    public class PaymentProviderService : IPaymentProviderService
     {
         private readonly PaymentProviderSettings paymentProviderSettings;
 
-        public GetPaymentProviderRedirectQuery(IOptions<PaymentProviderSettings> paymentProviderSettings)
+        public PaymentProviderService(IOptions<PaymentProviderSettings> paymentProviderSettings)
         {
             this.paymentProviderSettings = paymentProviderSettings.Value;
         }

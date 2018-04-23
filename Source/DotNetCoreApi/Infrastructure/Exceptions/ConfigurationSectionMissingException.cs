@@ -1,4 +1,4 @@
-﻿namespace DotNetCoreApi.Exceptions
+﻿namespace DotNetCoreApi.Infrastructure.Exceptions
 {
     using System;
 

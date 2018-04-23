@@ -1,7 +1,9 @@
 ﻿namespace DotNetCoreApi.Configuration
 {
     using System.Linq;
-    using Exceptions;
+
+    using DotNetCoreApi.Infrastructure.Exceptions;
+
     using Microsoft.Extensions.Configuration;
 
     public static class ConfigurationExtensions

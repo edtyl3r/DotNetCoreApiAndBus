@@ -2,7 +2,8 @@ namespace DotNetCoreApi.Configuration
 {
     using System;
     using System.Security.Cryptography.X509Certificates;
-    using Exceptions;
+
+    using DotNetCoreApi.Infrastructure.Exceptions;
 
     internal static class ApiCertificateResolver
     {

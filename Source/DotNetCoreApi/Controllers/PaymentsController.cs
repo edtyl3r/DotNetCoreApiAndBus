@@ -1,18 +1,22 @@
 ﻿namespace DotNetCoreApi.Controllers
 {
     using System.Threading.Tasks;
-    using Contracts;
+
+    using DotNetCoreApi.Application.Commands;
+    using DotNetCoreApi.Application.Models;
+
+    using MediatR;
+
     using Microsoft.AspNetCore.Mvc;
-    using Service;
 
     [Route("api/[controller]")]
     public class PaymentsController : Controller
     {
-        private readonly IPaymentService paymentService;
+        private readonly IMediator mediator;
 
-        public PaymentsController(IPaymentService paymentService)
+        public PaymentsController(IMediator mediator)
         {
-            this.paymentService = paymentService;
+            this.mediator = mediator;
         }
 
         [HttpGet("{id}")]
@@ -22,10 +26,11 @@
         }
 
         [HttpPut("{paymentReference}")]
-        public async Task<CreatedAtActionResult> Put(string paymentReference, [FromBody]Payment value)
+        public async Task<CreatedAtActionResult> Put(string paymentReference, [FromBody]Payment payment)
         {
-            var redirect = await this.paymentService.RegisterAttempt(paymentReference, value);
-            return this.CreatedAtAction("Get", new { id = paymentReference } ,redirect);
+            var command = new RegisterPaymentCommand(payment, new PaymentReference(paymentReference));
+            var redirect = await this.mediator.Send(command);
+            return this.CreatedAtAction("Get", new { id = paymentReference }, redirect);
         }
     }
 }

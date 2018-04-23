@@ -1,4 +1,4 @@
-﻿namespace DotNetCoreApi.Contracts
+namespace DotNetCoreApi.Application.Models
 {
     using System;
 
@@ -10,7 +10,7 @@
 
         public PaymentRedirect(Uri redirectUri)
         {
-            RedirectUri = redirectUri ?? throw new ArgumentNullException(nameof(redirectUri));
+            this.RedirectUri = redirectUri ?? throw new ArgumentNullException(nameof(redirectUri));
         }
 
         public Uri RedirectUri { get; set; }
