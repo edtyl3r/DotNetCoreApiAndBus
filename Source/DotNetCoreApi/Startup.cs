@@ -3,12 +3,13 @@
     using Configuration;
 
     using DotNetCoreApi.Infrastructure.Repositories;
+    using DotNetCoreApi.Infrastructure.Services;
+
     using MediatR;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Provider.Query;
 
     public class Startup
     {
@@ -32,7 +33,7 @@
 
             services.AddMediatR();
 
-            services.AddSingleton<IPaymentProviderService, PaymentProviderService>()
+            services.AddTransient<IPaymentProviderService, PaymentProviderService>()
                 .AddSingleton<IPaymentsRepository, PaymentsRepository>()
                 .AddSingleton<IDocumentClientFactory, DocumentClientFactory>();
         }

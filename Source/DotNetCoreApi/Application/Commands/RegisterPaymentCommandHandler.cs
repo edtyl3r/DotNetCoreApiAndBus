@@ -5,7 +5,7 @@
 
     using DotNetCoreApi.Application.Models;
     using DotNetCoreApi.Infrastructure.Repositories;
-    using DotNetCoreApi.Provider.Query;
+    using DotNetCoreApi.Infrastructure.Services;
 
     using MediatR;
 
